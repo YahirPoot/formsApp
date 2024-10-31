@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators, FormGroup } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 
 @Component({
   templateUrl: './basic-page.component.html',
   styles: ``
 })
-export class BasicPageComponent {
+export class BasicPageComponent implements OnInit{
 
 
   //* Existen dos formas para crear un formulario reactivo
@@ -24,6 +25,34 @@ export class BasicPageComponent {
   })
 
   constructor( private fb: FormBuilder ) {}
+
+  ngOnInit(): void {
+
+  }
+
+  isValidField( field: string ): boolean | null {
+    return this.myForm.controls[field].errors
+      && this.myForm.controls[field].touched;
+  }
+
+  getFieldErrorMessage( field: string ): string | null {
+
+    if ( !this.myForm.controls[field] ) return null;
+
+    const errors = this.myForm.controls[field].errors || {};
+
+    for ( const key of Object.keys(errors) ) {
+      switch( key ) {
+        case 'required':
+          return 'Este campo es requerido';
+
+        case 'minlength':
+          return `Minimo ${ errors['minlength'].requiredLength} caracteres.`;
+      }
+    }
+
+    return null;
+  }
 
   onSave(): void {
 
