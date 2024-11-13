@@ -11,8 +11,8 @@ export class DynamicPageComponent {
     name: ['', [Validators.required, Validators.minLength(3)]],
     favoriteGames: this.fb.array([
       ['Hollow Knight', Validators.required],
-      ['Celeste', Validators.required],
-      ['Dead Cells', Validators.required]
+      ['Halo', Validators.required],
+      ['Metal Slug', Validators.required]
     ]),
   })
 
