@@ -11,12 +11,18 @@ import { EmailValidatorService } from '../../../shared/validators/email.validato
 export class RegisterPageComponent {
 
   public myForm: FormGroup = this.fb.group({
+    // Estos validores se ejecutan en el nivel del campo
     name: ['', [Validators.required, Validators.pattern(this.validatorService.firstNameAndLastnamePattern)]],
     // email: ['', [Validators.required, Validators.pattern(this.validatorService.emailPattern)], [new EmailValidatorService()]],
     email: ['', [Validators.required, Validators.pattern(this.validatorService.emailPattern)], [this.emailValidatorService]],
     username: ['', [Validators.required, this.validatorService.cantBeStrider],],
     password: ['', [Validators.required, Validators.minLength(6)]],
     password2: ['', [Validators.required]],
+  }, {
+    // Este validador se ejecuta en el nivel de FormGroup
+    validators: [
+      this.validatorService.checkPasswords('password', 'password2')
+    ]
   });
 
   constructor(
@@ -32,4 +38,6 @@ export class RegisterPageComponent {
   onSubmit() {
     this.myForm.markAllAsTouched();
   }
+
+
 }
